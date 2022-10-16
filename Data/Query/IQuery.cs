@@ -1,3 +1,4 @@
+using new2me_api.Dtos;
 using new2me_api.Models;
 
 namespace new2me_api.Data.Query
@@ -45,5 +46,22 @@ namespace new2me_api.Data.Query
         /// <param name="password"></param>
         /// <returns>Authenticated user in the database</returns>
         Task<User> Authenticate(string username, string password);
+
+
+        /// <summary>
+        /// Signs user up
+        /// </summary>
+        /// <param name="username"></param>
+        /// <param name="password"></param>
+        /// <param name="email"></param>
+        /// <returns></returns>
+        Task SignUp(string username, string password, string email);
+
+        /// <summary>
+        /// Check if the username already exists
+        /// </summary>
+        /// <param name="username"></param>
+        /// <returns>True if username already exists</returns>
+        Task<bool> UsernameExists(string username);
     }
 }

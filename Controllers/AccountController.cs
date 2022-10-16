@@ -24,6 +24,17 @@ namespace new2me_api.Controllers
             this.query = query;
         }
 
+        // POST api/account/signup
+        [HttpPost("signup")]
+        public async Task<ActionResult> signup(SignupResDto signupReq){
+            if (await this.query.UsernameExists(signupReq.Username)){
+                return BadRequest("Username already exists, please try something else.");
+            }
+
+            await this.query.SignUp(signupReq.Username, signupReq.Password, signupReq.Email);
+            return NoContent();
+        }
+
         // POST api/account/login
         [HttpPost("login")]
         public async Task<ActionResult<User>> login(LoginReqDto loginReq){

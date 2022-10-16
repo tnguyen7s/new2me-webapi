@@ -33,6 +33,10 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Host.ConfigureHostConfiguration(configHost => {
+    configHost.AddEnvironmentVariables(prefix: "new2me");
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

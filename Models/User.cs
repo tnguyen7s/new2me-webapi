@@ -14,7 +14,10 @@ namespace new2me_api.Models
         public string? Username { get; set; }
 
         [Required]
-        public string? Password { get; set; }
+        public byte[] Password { get; set; }
+
+        public byte[] PasswordKey { get; set; }
+
 
         [Required]
         public string? Email { get; set;}
