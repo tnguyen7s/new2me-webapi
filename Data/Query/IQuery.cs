@@ -37,5 +37,13 @@ namespace new2me_api.Data.Query
         /// <param name="post"></param>
         /// <returns></returns>
         Task UpdatePost(Post post);
+
+        /// <summary>
+        /// Authenticate a user using provided username and password
+        /// </summary>
+        /// <param name="username"></param>
+        /// <param name="password"></param>
+        /// <returns>Authenticated user in the database</returns>
+        Task<User> Authenticate(string username, string password);
     }
 }

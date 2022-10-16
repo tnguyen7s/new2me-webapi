@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using new2me_api.Data.Query;
 using new2me_api.Dtos;
@@ -10,6 +11,7 @@ using new2me_api.Models;
 
 namespace new2me_api.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("api/[controller]")]
     public class PostController : ControllerBase
@@ -23,6 +25,7 @@ namespace new2me_api.Controllers
 
         // GET api/post
         [HttpGet]
+        [AllowAnonymous]
         public async Task<ActionResult<IEnumerable<PostDto>>> GetActivePosts(){
             var result = await this.query.GetActivePosts();
 
@@ -46,6 +49,7 @@ namespace new2me_api.Controllers
 
         // GET api/post/:id
         [HttpGet("{id}")]
+        [AllowAnonymous]
         public async Task<ActionResult<PostDto>> GetPost(int id){
             var result = await this.query.GetPost(id);
             
@@ -61,7 +65,6 @@ namespace new2me_api.Controllers
         // POST api/post
         [HttpPost]
         public async Task<ActionResult<PostDto>> CreatePost(PostDto postDto){
-            throw new UnauthorizedAccessException();
             var post = this.mapper.Map<Post>(postDto);
 
             var result = await this.query.CreatePost(post);
