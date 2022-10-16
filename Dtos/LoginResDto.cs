@@ -19,5 +19,7 @@ namespace new2me_api.Dtos
 
         public string? Token { get; set; }
 
+        public DateTime Expires { get; set; }
+
     }
 }

@@ -50,7 +50,8 @@ namespace new2me_api.Controllers
                 PhoneNum = user.PhoneNum,
                 Address = user.Address,
                 NameOfUser = user.NameOfUser,
-                Token = createJWT(user)
+                Expires = DateTime.UtcNow.AddDays(1),
+                Token = createJWT(user),
             };
             return Ok(loginRes);
         }
@@ -72,7 +73,7 @@ namespace new2me_api.Controllers
             // subject + expire date + signing credentials
             var tokenDescriptor = new SecurityTokenDescriptor{
                 Subject = new ClaimsIdentity(claims),
-                Expires = DateTime.UtcNow.AddMinutes(1), // changed later
+                Expires = DateTime.UtcNow.AddDays(1), // changed later
                 SigningCredentials = signingCredentials
             };
 

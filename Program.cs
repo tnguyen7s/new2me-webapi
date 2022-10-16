@@ -21,7 +21,7 @@ builder.Services.AddCors();
 
 var secretKey = builder.Configuration.GetSection("AppSettings:Key").Value;
 var key = new SymmetricSecurityKey(Encoding.UTF32.GetBytes(secretKey));
-builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme) // =="Bearer"
                 .AddJwtBearer(opt=>opt.TokenValidationParameters = new TokenValidationParameters{
                     ValidateIssuerSigningKey = true,
                     ValidateIssuer = false,
