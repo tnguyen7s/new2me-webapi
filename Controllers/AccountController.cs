@@ -31,19 +31,26 @@ namespace new2me_api.Controllers
                 return BadRequest("Username already exists, please try something else.");
             }
 
-            await this.query.SignUp(signupReq.Username, signupReq.Password, signupReq.Email);
-            return NoContent();
+            var user = await this.query.SignUp(signupReq.Username, signupReq.Password, signupReq.Email);
+           
+            var loginRes = createLoginResponse(user);
+            return Ok(loginRes);
         }
 
         // POST api/account/login
         [HttpPost("login")]
-        public async Task<ActionResult<User>> login(LoginReqDto loginReq){
+        public async Task<ActionResult<LoginResDto>> login(LoginReqDto loginReq){
             var user = await this.query.Authenticate(loginReq.Username, loginReq.Password);
 
             if (user==null){
                 return Unauthorized();
             }
 
+            var loginRes = createLoginResponse(user);
+            return Ok(loginRes);
+        }
+
+        private LoginResDto createLoginResponse(User user){
             var loginRes = new LoginResDto{
                 Username = user.Username,
                 Email = user.Email,
@@ -53,7 +60,8 @@ namespace new2me_api.Controllers
                 Expires = DateTime.UtcNow.AddDays(1),
                 Token = createJWT(user),
             };
-            return Ok(loginRes);
+
+            return loginRes;
         }
 
         private string createJWT(User user){

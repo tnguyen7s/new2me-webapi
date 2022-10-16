@@ -34,7 +34,7 @@ namespace new2me_api.Data.Query
             return user; 
         }
 
-        public async Task SignUp(string username, string password, string email){
+        public async Task<User> SignUp(string username, string password, string email){
             byte[] passwordHash, passwordKey;
 
             using (var hmac = new HMACSHA512()){
@@ -51,6 +51,8 @@ namespace new2me_api.Data.Query
 
             await this.new2meDb.AddAsync(user);
             await this.new2meDb.SaveChangesAsync();
+
+            return user;
         }
 
         public async Task<bool> UsernameExists(string username){

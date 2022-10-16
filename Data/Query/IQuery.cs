@@ -54,8 +54,8 @@ namespace new2me_api.Data.Query
         /// <param name="username"></param>
         /// <param name="password"></param>
         /// <param name="email"></param>
-        /// <returns></returns>
-        Task SignUp(string username, string password, string email);
+        /// <returns>The user</returns>
+        Task<User> SignUp(string username, string password, string email);
 
         /// <summary>
         /// Check if the username already exists
