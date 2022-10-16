@@ -57,7 +57,7 @@ namespace new2me_api.Controllers
                 PhoneNum = user.PhoneNum,
                 Address = user.Address,
                 NameOfUser = user.NameOfUser,
-                Expires = DateTime.UtcNow.AddDays(1),
+                Expires =  new DateTimeOffset(DateTime.UtcNow.AddDays(1)).ToUnixTimeMilliseconds(),
                 Token = createJWT(user),
             };
 
