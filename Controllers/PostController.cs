@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -19,7 +20,9 @@ namespace new2me_api.Controllers
     {
         private readonly IQuery query;
         private readonly IMapper mapper;
-        public PostController(IQuery query, IMapper mapper){
+        private readonly IHttpContextAccessor contextAccessor;
+        public PostController(IQuery query, IMapper mapper, IHttpContextAccessor contextAccessor){
+            this.contextAccessor = contextAccessor;
             this.mapper = mapper;
             this.query = query;
         }
@@ -83,9 +86,10 @@ namespace new2me_api.Controllers
         // POST api/post
         [HttpPost]
         public async Task<ActionResult<PostDto>> CreatePost(PostDto postDto){
+            var userId = int.Parse(this.contextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value);
             var post = this.mapper.Map<Post>(postDto);
 
-            var result = await this.query.CreatePost(post, postDto.Pictures);
+            var result = await this.query.CreatePost(post, postDto.Pictures, userId);
 
             postDto.Id = result.Id;
             return CreatedAtAction(nameof(CreatePost), new {id=postDto.Id}, postDto);
@@ -118,9 +122,11 @@ namespace new2me_api.Controllers
             }
 
             mapper.Map(postDto, postFromDb);
-            await this.query.UpdatePost(postFromDb, postDto.Pictures);
+            var userId = int.Parse(this.contextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value);
+            await this.query.UpdatePost(postFromDb, postDto.Pictures, userId);
 
             return NoContent();
         }
+
     }
 }

@@ -24,7 +24,9 @@ namespace new2me_api.Data.Query
         /// <param name="post"></param>
         /// <param name="pictures"></param>
         /// <returns>Return the post containning the id</returns>
-        Task<Post> CreatePost(Post post, ICollection<string> pictures);
+        
+
+        Task<Post> CreatePost(Post post, ICollection<string> pictures, int userId);
 
         /// <summary>
         /// Delete a post given its id
@@ -39,7 +41,7 @@ namespace new2me_api.Data.Query
         /// <param name="post"></param>
         /// /// <param name="pictures"></param>
         /// <returns></returns>
-        Task UpdatePost(Post post, ICollection<string> pictures);
+        Task UpdatePost(Post post, ICollection<string> pictures, int userId);
 
         /// <summary>
         /// Authenticate a user using provided username and password

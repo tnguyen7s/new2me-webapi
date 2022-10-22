@@ -29,9 +29,8 @@ namespace new2me_api.Data.Query
             return result;
         }
 
-        public async Task<Post> CreatePost(Post post, ICollection<string> pictures){
+        public async Task<Post> CreatePost(Post post, ICollection<string> pictures, int userId){
             // Create a post
-            var userId = int.Parse(httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value);
             post.UserId =userId;
             post.LastUpdatedBy = userId;
             post.LastUpdatedOn = DateTime.Now;
@@ -76,9 +75,8 @@ namespace new2me_api.Data.Query
             await this.new2meDb.SaveChangesAsync();
         }
 
-        public async Task UpdatePost(Post post, ICollection<String> pictures){
+        public async Task UpdatePost(Post post, ICollection<String> pictures, int userId){
             // update post 
-            var userId = int.Parse(httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value);
             post.LastUpdatedBy = userId;
             post.LastUpdatedOn = DateTime.Now;
 
