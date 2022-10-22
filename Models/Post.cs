@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using new2me_api.Enums;
 
 namespace new2me_api.Models
@@ -36,5 +37,8 @@ namespace new2me_api.Models
         public DateTime LastUpdatedOn { get; set; }
         
         public int LastUpdatedBy { get; set; }
+
+        [ForeignKey("User")]
+        public int UserId { get; set;}
     }
 }

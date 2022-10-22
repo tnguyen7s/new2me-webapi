@@ -8,7 +8,7 @@ namespace new2me_api.Models
 {
     public class User
     {
-        public long Id { get; set; }
+        public int Id { get; set; }
 
         [Required]
         public string? Username { get; set; }
@@ -27,5 +27,7 @@ namespace new2me_api.Models
         public string? Address { get; set; }
         
         public string? NameOfUser { get; set; }
+
+        public ICollection<Post> Posts { get; set; }
     }
 }

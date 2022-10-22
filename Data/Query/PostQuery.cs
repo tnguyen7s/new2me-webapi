@@ -2,7 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using new2me_api.Models;
 using System.Linq;
 using System.Collections.Generic;
-
+using System.Security.Claims;
 
 namespace new2me_api.Data.Query
 {
@@ -28,6 +28,8 @@ namespace new2me_api.Data.Query
         public async Task<Post> CreatePost(Post post){
             post.LastUpdatedBy = 1;
             post.LastUpdatedOn = DateTime.Now;
+            post.UserId =int.Parse(httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value);
+
 
             await this.new2meDb.Posts.AddAsync(post).ConfigureAwait(false);
             await this.new2meDb.SaveChangesAsync();
