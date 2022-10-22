@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
@@ -27,9 +28,22 @@ namespace new2me_api.Controllers
         [HttpGet]
         [AllowAnonymous]
         public async Task<ActionResult<IEnumerable<PostDto>>> GetActivePosts(){
+            // query for Posts
             var result = await this.query.GetActivePosts();
+            
+            // map posts to PostDto
+            var postDtos = mapper.Map<IEnumerable<PostDtoWithoutContact>>(result);
 
-            var postDtos = mapper.Map<IEnumerable<PostDto>>(result);
+            // Extract actual pictures and save them to PostDto
+            for (int i=0; i<result.Count(); i++){
+                var pictures = result.ElementAt(i).PostPictures;
+                var postDto = postDtos.ElementAt(i);
+
+                postDto.Pictures = new List<string>();
+                foreach (PostPicture pic in pictures){
+                    postDto.Pictures.Add(Encoding.UTF32.GetString(pic.Picture));
+                }
+            }
 
             // var postDtos = from p in result
             //     select new PostDto{

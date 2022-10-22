@@ -8,6 +8,7 @@ namespace new2me_api.Helpers
     {
         public AutoMapperProfiles(){
             CreateMap<Post, PostDto>().ReverseMap();
+            CreateMap<Post, PostDtoWithoutContact>();
         }
     }
 }

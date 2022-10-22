@@ -15,6 +15,10 @@ namespace new2me_api.Data.Query
                 .ToListAsync()
                 .ConfigureAwait(false);
 
+            foreach (Post post in result){
+                post.PostPictures = await this.new2meDb.PostPictures.Where(pic=>pic.PostId==post.Id).ToListAsync().ConfigureAwait(false);
+            }
+
             return result;
         }
 
@@ -39,7 +43,7 @@ namespace new2me_api.Data.Query
             for (int i=0; i<pictures.Count; i++){
                 var picture = pictures.ElementAt(i);
                 var postPicture = new PostPicture{
-                    Picture = Encoding.UTF8.GetBytes(picture),
+                    Picture = Encoding.UTF32.GetBytes(picture),
                     PostId = 1 // give it a default
                 };
                 await this.new2meDb.PostPictures.AddAsync(postPicture).ConfigureAwait(false);
@@ -91,7 +95,7 @@ namespace new2me_api.Data.Query
             for (int i=0; i<pictures.Count; i++){
                 var picture = pictures.ElementAt(i);
                 var postPicture = new PostPicture{
-                    Picture = Encoding.UTF8.GetBytes(picture),
+                    Picture = Encoding.UTF32.GetBytes(picture),
                     PostId = post.Id
                 };
                 await this.new2meDb.PostPictures.AddAsync(postPicture).ConfigureAwait(false);
