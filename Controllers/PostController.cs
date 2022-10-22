@@ -128,5 +128,26 @@ namespace new2me_api.Controllers
             return NoContent();
         }
 
+        // GET api/post/user
+        [HttpGet("user")]
+        [Authorize]
+        public async Task<ActionResult<IEnumerable<PostDto>>> GetUserPosts(){
+            var userId = int.Parse(this.contextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value);
+            var result = await this.query.GetUserPosts(userId);
+
+            var postDtos = mapper.Map<IEnumerable<PostDto>>(result);
+            // Extract actual pictures and save them to PostDto
+            for (int i=0; i<result.Count(); i++){
+                var pictures = result.ElementAt(i).PostPictures;
+                var postDto = postDtos.ElementAt(i);
+
+                postDto.Pictures = new List<string>();
+                foreach (PostPicture pic in pictures){
+                    postDto.Pictures.Add(Encoding.UTF32.GetString(pic.Picture));
+                }
+            }
+
+            return Ok(postDtos);
+        }
     }
 }

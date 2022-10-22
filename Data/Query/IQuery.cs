@@ -19,13 +19,19 @@ namespace new2me_api.Data.Query
         Task<Post> GetPost(int id);
 
         /// <summary>
+        /// Get all posts created by the user
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        Task<IEnumerable<Post>> GetUserPosts(int userId);
+
+
+        /// <summary>
         /// Create a new post in new2meDb
         /// </summary>
         /// <param name="post"></param>
         /// <param name="pictures"></param>
         /// <returns>Return the post containning the id</returns>
-        
-
         Task<Post> CreatePost(Post post, ICollection<string> pictures, int userId);
 
         /// <summary>

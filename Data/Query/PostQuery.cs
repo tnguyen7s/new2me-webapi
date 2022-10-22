@@ -29,6 +29,16 @@ namespace new2me_api.Data.Query
             return result;
         }
 
+        public async Task<IEnumerable<Post>> GetUserPosts(int userId){
+            var result = await this.new2meDb.Posts
+                        .Include(post=>post.PostPictures)
+                        .Where(post=>post.UserId==userId)
+                        .ToListAsync()
+                        .ConfigureAwait(false);
+
+            return result;
+        }
+
         public async Task<Post> CreatePost(Post post, ICollection<string> pictures, int userId){
             // Create a post
             post.UserId =userId;
