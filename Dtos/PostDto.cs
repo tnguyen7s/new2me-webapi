@@ -36,5 +36,8 @@ namespace new2me_api.Dtos
 
         [Required]
         public PostStatusEnum Status { get; set; }
+
+        [Required]
+        public ICollection<string> Pictures { get; set; }
     }
 }

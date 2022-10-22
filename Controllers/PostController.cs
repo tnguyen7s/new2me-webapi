@@ -67,7 +67,7 @@ namespace new2me_api.Controllers
         public async Task<ActionResult<PostDto>> CreatePost(PostDto postDto){
             var post = this.mapper.Map<Post>(postDto);
 
-            var result = await this.query.CreatePost(post);
+            var result = await this.query.CreatePost(post, postDto.Pictures);
 
             postDto.Id = result.Id;
             return CreatedAtAction(nameof(CreatePost), new {id=postDto.Id}, postDto);

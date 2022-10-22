@@ -86,7 +86,7 @@ namespace new2me_api.Migrations
 
                     b.HasIndex("PostId");
 
-                    b.ToTable("PostPicture");
+                    b.ToTable("PostPictures");
                 });
 
             modelBuilder.Entity("new2me_api.Models.User", b =>

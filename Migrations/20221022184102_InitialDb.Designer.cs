@@ -11,8 +11,8 @@ using new2me_api.Data;
 namespace new2me_api.Migrations
 {
     [DbContext(typeof(New2meDataContext))]
-    [Migration("20221022175153_AddPostPicture")]
-    partial class AddPostPicture
+    [Migration("20221022184102_InitialDb")]
+    partial class InitialDb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -88,7 +88,7 @@ namespace new2me_api.Migrations
 
                     b.HasIndex("PostId");
 
-                    b.ToTable("PostPicture");
+                    b.ToTable("PostPictures");
                 });
 
             modelBuilder.Entity("new2me_api.Models.User", b =>

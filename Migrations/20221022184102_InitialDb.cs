@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 
@@ -10,6 +11,7 @@ namespace new2me_api.Migrations
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+          
             migrationBuilder.AlterDatabase()
                 .Annotation("MySql:CharSet", "utf8mb4");
 
@@ -73,14 +75,47 @@ namespace new2me_api.Migrations
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
+            migrationBuilder.CreateTable(
+                name: "PostPictures",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    Picture = table.Column<byte[]>(type: "longblob", nullable: false),
+                    PostId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PostPictures", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_PostPictures_Posts_PostId",
+                        column: x => x.PostId,
+                        principalTable: "Posts",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PostPictures_PostId",
+                table: "PostPictures",
+                column: "PostId");
+
             migrationBuilder.CreateIndex(
                 name: "IX_Posts_UserId",
                 table: "Posts",
                 column: "UserId");
+
+
+            migrationBuilder.InsertData("Users", new String[]{"Username", "Password", "PasswordKey", "Email"}, new Object[]{"default", Encoding.UTF8.GetBytes("default"), Encoding.UTF8.GetBytes("default"), "default"});
+            migrationBuilder.InsertData("Posts", new String[]{"Title", "Location", "Description", "ContactEmail", "ContactPhone", "Condition", "Tag", "Status", "LastUpdatedOn", "LastUpdatedBy", "UserId"}, new Object[]{"default", "default", "default", "default", "default", 0, 0, 0, DateTime.Now, 0 ,1});
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "PostPictures");
+
             migrationBuilder.DropTable(
                 name: "Posts");
 

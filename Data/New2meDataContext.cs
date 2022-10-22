@@ -11,5 +11,7 @@ namespace new2me_api.Data
         public DbSet<Post> Posts { get; set; }
         public DbSet<User> Users { get; set; }
 
+        public DbSet<PostPicture> PostPictures { get; set; }
+
     }
 }
