@@ -64,15 +64,19 @@ namespace new2me_api.Controllers
         // GET api/post/:id
         [HttpGet("{id}")]
         [AllowAnonymous]
-        public async Task<ActionResult<PostDto>> GetPost(int id){
+        public async Task<ActionResult<PostDtoWithoutContact>> GetPost(int id){
             var result = await this.query.GetPost(id);
             
             if (result==null){
                 return NotFound();
             }
 
-            var postDto = this.mapper.Map<PostDto>(result); 
-
+            var postDto = this.mapper.Map<PostDtoWithoutContact>(result); 
+            postDto.Pictures = new List<string>();
+            foreach(PostPicture postPicture in result.PostPictures){
+                postDto.Pictures.Add(Encoding.UTF32.GetString(postPicture.Picture));
+            }
+            
             return Ok(postDto);
         }
 

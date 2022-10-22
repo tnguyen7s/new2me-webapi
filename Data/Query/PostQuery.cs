@@ -11,20 +11,19 @@ namespace new2me_api.Data.Query
     {
         public async Task<IEnumerable<Post>> GetActivePosts(){
             var result = await this.new2meDb.Posts
+                .Include(post=> post.PostPictures)
                 .Where(p => p.Status == Enums.PostStatusEnum.Active)
                 .ToListAsync()
                 .ConfigureAwait(false);
-
-            foreach (Post post in result){
-                post.PostPictures = await this.new2meDb.PostPictures.Where(pic=>pic.PostId==post.Id).ToListAsync().ConfigureAwait(false);
-            }
 
             return result;
         }
 
         public async Task<Post> GetPost(int id){
             var result = await this.new2meDb.Posts
-                    .FindAsync(id)
+                    .Include(post=> post.PostPictures)
+                    .Where(post=>post.Id==id)
+                    .FirstOrDefaultAsync()
                     .ConfigureAwait(false);
 
             return result;
