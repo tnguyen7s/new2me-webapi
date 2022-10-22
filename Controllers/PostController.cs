@@ -100,7 +100,7 @@ namespace new2me_api.Controllers
             }
 
             mapper.Map(postDto, postFromDb);
-            await this.query.UpdatePost(postFromDb);
+            await this.query.UpdatePost(postFromDb, postDto.Pictures);
 
             return NoContent();
         }

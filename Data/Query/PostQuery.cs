@@ -61,13 +61,43 @@ namespace new2me_api.Data.Query
 
         public async Task DeletePost(Post post){
             this.new2meDb.Posts.Remove(post);
+
+            
+            // delete pictures as well
+            var oldPostPictures = await this.new2meDb.PostPictures.Where(p => p.PostId == post.Id)
+                                            .ToListAsync()
+                                            .ConfigureAwait(false);
+            this.new2meDb.PostPictures.RemoveRange(oldPostPictures);
+
+
             await this.new2meDb.SaveChangesAsync();
         }
 
-        public async Task UpdatePost(Post post){
-            post.LastUpdatedBy = 1;
+        public async Task UpdatePost(Post post, ICollection<String> pictures){
+            // update post 
+            var userId = int.Parse(httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value);
+            post.LastUpdatedBy = userId;
             post.LastUpdatedOn = DateTime.Now;
 
+
+            // delete previous pictures with updated pictures
+            var oldPostPictures = await this.new2meDb.PostPictures.Where(p => p.PostId == post.Id)
+                                            .ToListAsync()
+                                            .ConfigureAwait(false);
+
+            this.new2meDb.PostPictures.RemoveRange(oldPostPictures);
+            
+
+            for (int i=0; i<pictures.Count; i++){
+                var picture = pictures.ElementAt(i);
+                var postPicture = new PostPicture{
+                    Picture = Encoding.UTF8.GetBytes(picture),
+                    PostId = post.Id
+                };
+                await this.new2meDb.PostPictures.AddAsync(postPicture).ConfigureAwait(false);
+            }
+
+            // save all changes
             await this.new2meDb.SaveChangesAsync();
         }
 

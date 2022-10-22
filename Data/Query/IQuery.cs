@@ -37,8 +37,9 @@ namespace new2me_api.Data.Query
         /// Update a post
         /// </summary>
         /// <param name="post"></param>
+        /// /// <param name="pictures"></param>
         /// <returns></returns>
-        Task UpdatePost(Post post);
+        Task UpdatePost(Post post, ICollection<string> pictures);
 
         /// <summary>
         /// Authenticate a user using provided username and password
