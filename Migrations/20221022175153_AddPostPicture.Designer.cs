@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using new2me_api.Data;
 
@@ -10,9 +11,10 @@ using new2me_api.Data;
 namespace new2me_api.Migrations
 {
     [DbContext(typeof(New2meDataContext))]
-    partial class New2meDataContextModelSnapshot : ModelSnapshot
+    [Migration("20221022175153_AddPostPicture")]
+    partial class AddPostPicture
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

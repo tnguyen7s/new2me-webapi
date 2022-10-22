@@ -40,5 +40,7 @@ namespace new2me_api.Models
 
         [ForeignKey("User")]
         public int UserId { get; set;}
+
+        public ICollection<PostPicture> PostPictures { get; set; }
     }
 }
