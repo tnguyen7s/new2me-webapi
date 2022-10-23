@@ -104,6 +104,17 @@ namespace new2me_api.Controllers
             return Ok(postDtos);
         }
 
+
+        // GET api/post/contact/id
+        [HttpGet("contact/{id}")]
+        [AllowAnonymous]
+        public async Task<ActionResult<PostContactDto>> GetPostContact(int id){
+            var post = await this.query.GetPost(id);
+            var postContactDto = this.mapper.Map<PostContactDto>(post);
+
+            return Ok(postContactDto);
+        }
+
         // POST api/post
         [HttpPost]
         public async Task<ActionResult<PostDto>> CreatePost(PostDto postDto){

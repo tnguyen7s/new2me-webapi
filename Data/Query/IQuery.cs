@@ -25,6 +25,7 @@ namespace new2me_api.Data.Query
         /// <returns></returns>
         Task<IEnumerable<Post>> GetPostsByTag(int tag);
 
+
         /// <summary>
         /// Get all posts created by the user
         /// </summary>
