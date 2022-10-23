@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using new2me_api.Data.Query;
 using new2me_api.Dtos;
+using new2me_api.Enums;
 using new2me_api.Models;
 
 namespace new2me_api.Controllers
@@ -27,19 +28,13 @@ namespace new2me_api.Controllers
             this.query = query;
         }
 
-        // GET api/post
-        [HttpGet]
-        [AllowAnonymous]
-        public async Task<ActionResult<IEnumerable<PostDto>>> GetActivePosts(){
-            // query for Posts
-            var result = await this.query.GetActivePosts();
-            
+        private IEnumerable<PostDtoWithoutContact> CreatePostDtoWithoutContactsFromPosts(IEnumerable<Post> posts){
             // map posts to PostDto
-            var postDtos = mapper.Map<IEnumerable<PostDtoWithoutContact>>(result);
+            var postDtos = mapper.Map<IEnumerable<PostDtoWithoutContact>>(posts);
 
             // Extract actual pictures and save them to PostDto
-            for (int i=0; i<result.Count(); i++){
-                var pictures = result.ElementAt(i).PostPictures;
+            for (int i=0; i<posts.Count(); i++){
+                var pictures = posts.ElementAt(i).PostPictures;
                 var postDto = postDtos.ElementAt(i);
 
                 postDto.Pictures = new List<string>();
@@ -48,6 +43,17 @@ namespace new2me_api.Controllers
                 }
             }
 
+            return postDtos;
+        }
+
+        // GET api/post
+        [HttpGet]
+        [AllowAnonymous]
+        public async Task<ActionResult<IEnumerable<PostDtoWithoutContact>>> GetActivePosts(){
+            // query for Posts
+            var result = await this.query.GetActivePosts();
+            
+            var postDtos = CreatePostDtoWithoutContactsFromPosts(result);
             // var postDtos = from p in result
             //     select new PostDto{
             //         Id = p.Id,
@@ -81,6 +87,21 @@ namespace new2me_api.Controllers
             }
             
             return Ok(postDto);
+        }
+
+        // GET api/post/filter?tag=0
+        [HttpGet("filter")]
+        [AllowAnonymous]
+        public async Task<ActionResult<IEnumerable<PostDtoWithoutContact>>> GetPostsByTag([FromQuery]int tag)
+        {
+            if (!(tag>=0 && tag<=6)){
+                return BadRequest("Invalid tag");
+            }
+
+            var posts = await this.query.GetPostsByTag(tag);
+            var postDtos = CreatePostDtoWithoutContactsFromPosts(posts);
+
+            return Ok(postDtos);
         }
 
         // POST api/post
@@ -130,7 +151,6 @@ namespace new2me_api.Controllers
 
         // GET api/post/user
         [HttpGet("user")]
-        [Authorize]
         public async Task<ActionResult<IEnumerable<PostDto>>> GetUserPosts(){
             var userId = int.Parse(this.contextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value);
             var result = await this.query.GetUserPosts(userId);

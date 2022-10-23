@@ -4,6 +4,7 @@ using System.Linq;
 using System.Collections.Generic;
 using System.Security.Claims;
 using System.Text;
+using new2me_api.Enums;
 
 namespace new2me_api.Data.Query
 {
@@ -35,6 +36,18 @@ namespace new2me_api.Data.Query
                         .Where(post=>post.UserId==userId)
                         .ToListAsync()
                         .ConfigureAwait(false);
+
+            return result;
+        }
+
+
+        public async Task<IEnumerable<Post>> GetPostsByTag(int tag){
+
+            var result = await this.new2meDb.Posts
+                            .Include(post=>post.PostPictures)
+                            .Where(post=>(int)post.Tag==tag)
+                            .ToListAsync()
+                            .ConfigureAwait(false);
 
             return result;
         }

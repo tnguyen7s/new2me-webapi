@@ -19,6 +19,13 @@ namespace new2me_api.Data.Query
         Task<Post> GetPost(int id);
 
         /// <summary>
+        /// Get posts belonging to a particular tag
+        /// </summary>
+        /// <param name="tag"></param>
+        /// <returns></returns>
+        Task<IEnumerable<Post>> GetPostsByTag(int tag);
+
+        /// <summary>
         /// Get all posts created by the user
         /// </summary>
         /// <param name="userId"></param>
