@@ -120,7 +120,7 @@ namespace new2me_api.Controllers
         public async Task<ActionResult<PostDto>> CreatePost(PostDto postDto){
             var userId = int.Parse(this.contextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value);
             var post = this.mapper.Map<Post>(postDto);
-
+            
             var result = await this.query.CreatePost(post, postDto.Pictures, userId);
 
             postDto.Id = result.Id;

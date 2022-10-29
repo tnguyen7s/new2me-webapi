@@ -5,10 +5,12 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using new2me_api.Data.Query;
 using new2me_api.Dtos;
+using new2me_api.Helpers;
 using new2me_api.Models;
 
 namespace new2me_api.Controllers
@@ -19,7 +21,9 @@ namespace new2me_api.Controllers
     {
         private readonly IQuery query;
         private readonly IConfiguration configuration;
-        public AccountController(IQuery query, IConfiguration configuration){
+        private readonly IHttpContextAccessor httpContextAccessor;
+        public AccountController(IQuery query, IConfiguration configuration, IHttpContextAccessor httpContextAccessor){
+            this.httpContextAccessor = httpContextAccessor;
             this.configuration = configuration;
             this.query = query;
         }
@@ -50,6 +54,44 @@ namespace new2me_api.Controllers
             return Ok(loginRes);
         }
 
+
+        // POST api/account/resetPassRequest
+        [HttpPost("resetPassRequest")]
+        public async Task<IActionResult> requestResetPassword([FromQuery] string email){
+            var user = await this.query.GetUserByEmail(email);
+            if (user==null){
+                return NotFound("Found no user.");
+            }
+
+            var token = this.createJWT(user);
+            SMTPService.sendResetPassword(email, token);
+
+            return Ok();
+        }
+
+        // UPDATE api/account
+        [HttpPut]
+        [Authorize]
+        public async Task<IActionResult> updateAccount(UserDto userDto){
+            var userId = int.Parse(this.httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value);
+            var user = await this.query.GetUserById(userId);
+
+            if (user==null){
+                return BadRequest();
+            }
+
+            user.Email = userDto.Email;
+            user.Username = userDto.Username;
+            user.Address = userDto.Address;
+            user.PhoneNum = userDto.PhoneNum;
+            user.NameOfUser = userDto.NameOfUser;
+
+            await this.query.UpdateUser(user);
+            
+            return NoContent();
+        }
+
+
         private LoginResDto createLoginResponse(User user){
             var loginRes = new LoginResDto{
                 Username = user.Username,
@@ -57,7 +99,7 @@ namespace new2me_api.Controllers
                 PhoneNum = user.PhoneNum,
                 Address = user.Address,
                 NameOfUser = user.NameOfUser,
-                Expires =  new DateTimeOffset(DateTime.UtcNow.AddMinutes(1)).ToUnixTimeMilliseconds(),
+                Expires =  new DateTimeOffset(DateTime.UtcNow.AddMinutes(2)).ToUnixTimeMilliseconds(),
                 Token = createJWT(user),
             };
 
@@ -91,5 +133,7 @@ namespace new2me_api.Controllers
 
             return tokenHandler.WriteToken(token);
         }
+
+
     }
 }

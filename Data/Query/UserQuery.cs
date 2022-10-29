@@ -58,5 +58,17 @@ namespace new2me_api.Data.Query
         public async Task<bool> UsernameExists(string username){
             return await this.new2meDb.Users.AnyAsync(u => u.Username==username);
         }
+
+        public async Task<User> GetUserByEmail(string email){
+            return await this.new2meDb.Users.Where(user=>user.Email==email).FirstOrDefaultAsync();
+        }
+
+        public async Task<User> GetUserById(int id){
+            return await this.new2meDb.Users.FindAsync(id);
+        }
+
+        public async Task UpdateUser(User user){
+            await this.new2meDb.SaveChangesAsync();
+        }
     }
 }

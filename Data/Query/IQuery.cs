@@ -81,5 +81,26 @@ namespace new2me_api.Data.Query
         /// <param name="username"></param>
         /// <returns>True if username already exists</returns>
         Task<bool> UsernameExists(string username);
+
+        /// <summary>
+        /// Get User by their Email
+        /// </summary>
+        /// <param name="email"></param>
+        /// <returns>User</returns>
+        Task<User> GetUserByEmail(string email);
+
+        /// <summary>
+        /// Get User by their ID
+        /// </summary>
+        /// <param name="id">User's id</param>
+        /// <returns>User</returns>
+        Task<User> GetUserById(int id);
+
+        /// <summary>
+        /// Update the user.
+        /// </summary>
+        /// <param name="user">The User entity</param>
+        /// <returns></returns>
+        Task UpdateUser(User user);
     }
 }
