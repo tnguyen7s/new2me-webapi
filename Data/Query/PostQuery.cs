@@ -41,11 +41,11 @@ namespace new2me_api.Data.Query
         }
 
 
-        public async Task<IEnumerable<Post>> GetPostsByTag(int tag){
+        public async Task<IEnumerable<Post>> GetActivePostsByTag(int tag){
 
             var result = await this.new2meDb.Posts
                             .Include(post=>post.PostPictures)
-                            .Where(post=>(int)post.Tag==tag)
+                            .Where(post=>(int)post.Tag==tag && post.Status==PostStatusEnum.Active)
                             .ToListAsync()
                             .ConfigureAwait(false);
 

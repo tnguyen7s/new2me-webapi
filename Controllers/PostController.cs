@@ -98,7 +98,7 @@ namespace new2me_api.Controllers
                 return BadRequest("Invalid tag");
             }
 
-            var posts = await this.query.GetPostsByTag(tag);
+            var posts = await this.query.GetActivePostsByTag(tag);
             var postDtos = CreatePostDtoWithoutContactsFromPosts(posts);
 
             return Ok(postDtos);
@@ -110,7 +110,15 @@ namespace new2me_api.Controllers
         [AllowAnonymous]
         public async Task<ActionResult<PostContactDto>> GetPostContact(int id){
             var post = await this.query.GetPost(id);
+
+            if (post==null){
+                return NotFound("No such post found.");
+            }
+
             var postContactDto = this.mapper.Map<PostContactDto>(post);
+
+            var creator = await this.query.GetUserById(post.UserId);
+            postContactDto.NameOfUser = creator.NameOfUser;
 
             return Ok(postContactDto);
         }

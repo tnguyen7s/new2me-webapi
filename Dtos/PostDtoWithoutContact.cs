@@ -32,5 +32,7 @@ namespace new2me_api.Dtos
 
         [Required]
         public ICollection<string> Pictures { get; set; }
+
+        public DateTime LastUpdatedOn { get; set; }
     }
 }

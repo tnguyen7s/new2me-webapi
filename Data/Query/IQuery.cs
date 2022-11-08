@@ -23,7 +23,7 @@ namespace new2me_api.Data.Query
         /// </summary>
         /// <param name="tag"></param>
         /// <returns></returns>
-        Task<IEnumerable<Post>> GetPostsByTag(int tag);
+        Task<IEnumerable<Post>> GetActivePostsByTag(int tag);
 
 
         /// <summary>

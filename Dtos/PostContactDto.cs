@@ -10,6 +10,8 @@ namespace new2me_api.Dtos
     {
         public int Id { get; set; }
 
+        public string? NameOfUser { get; set; }
+
         [Required]
         public string? ContactEmail { get; set; }
 
