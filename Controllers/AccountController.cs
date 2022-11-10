@@ -22,14 +22,14 @@ namespace new2me_api.Controllers
     {
         private readonly IQuery query;
         private readonly IConfiguration configuration;
-        private readonly IHttpContextAccessor httpContextAccessor;
         private readonly IMailClient mailClient;
+        private readonly IUserContext userContext;
 
         public AccountController(IQuery query, 
                                 IConfiguration configuration, 
-                                IHttpContextAccessor httpContextAccessor, 
+                                IUserContext userContext,
                                 IMailClient mailClient){
-            this.httpContextAccessor = httpContextAccessor;
+            this.userContext = userContext;
             this.mailClient = mailClient;
             this.configuration = configuration;
             this.query = query;
@@ -81,7 +81,7 @@ namespace new2me_api.Controllers
         [HttpPut]
         [Authorize]
         public async Task<IActionResult> updateAccount(UserDto userDto){
-            var userId = int.Parse(this.httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value);
+            var userId = this.userContext.getUserID();
             var user = await this.query.GetUserById(userId);
 
             if (user==null){

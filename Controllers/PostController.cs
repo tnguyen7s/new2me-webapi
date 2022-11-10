@@ -21,9 +21,12 @@ namespace new2me_api.Controllers
     {
         private readonly IQuery query;
         private readonly IMapper mapper;
-        private readonly IHttpContextAccessor contextAccessor;
-        public PostController(IQuery query, IMapper mapper, IHttpContextAccessor contextAccessor){
-            this.contextAccessor = contextAccessor;
+        private readonly IUserContext userContext;
+
+        public PostController(IQuery query, 
+                                IMapper mapper, 
+                                IUserContext userContext){
+            this.userContext = userContext;
             this.mapper = mapper;
             this.query = query;
         }
@@ -126,7 +129,7 @@ namespace new2me_api.Controllers
         // POST api/post
         [HttpPost]
         public async Task<ActionResult<PostDto>> CreatePost(PostDto postDto){
-            var userId = int.Parse(this.contextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value);
+            var userId = this.userContext.getUserID();
             var post = this.mapper.Map<Post>(postDto);
             
             var result = await this.query.CreatePost(post, postDto.Pictures, userId);
@@ -162,7 +165,7 @@ namespace new2me_api.Controllers
             }
 
             mapper.Map(postDto, postFromDb);
-            var userId = int.Parse(this.contextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value);
+            var userId = this.userContext.getUserID();
             await this.query.UpdatePost(postFromDb, postDto.Pictures, userId);
 
             return NoContent();
@@ -171,7 +174,7 @@ namespace new2me_api.Controllers
         // GET api/post/user
         [HttpGet("user")]
         public async Task<ActionResult<IEnumerable<PostDto>>> GetUserPosts(){
-            var userId = int.Parse(this.contextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value);
+            var userId = this.userContext.getUserID();
             var result = await this.query.GetUserPosts(userId);
 
             var postDtos = mapper.Map<IEnumerable<PostDto>>(result);

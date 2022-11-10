@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using new2me_api.Clients;
+using new2me_api.Controllers;
 using new2me_api.Data;
 using new2me_api.Data.Query;
 using new2me_api.Helpers;
@@ -16,6 +17,7 @@ builder.Services.AddControllers();
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddAutoMapper(typeof(AutoMapperProfiles).Assembly);
 builder.Services.AddScoped<IQuery, Query>();
+builder.Services.AddScoped<IUserContext, UserContext>();
 builder.Services.AddSingleton<IMailClient, MailClient>();
 builder.Services.AddCors();
 
