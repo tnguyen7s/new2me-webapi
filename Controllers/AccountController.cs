@@ -76,6 +76,23 @@ namespace new2me_api.Controllers
             return Ok();
         }
 
+        // POST api/account/resetPassword
+        [HttpPost("resetPassword")]
+        [Authorize]
+        public async Task<IActionResult> resetPassword(ResetPasswordDto payload){
+            var pwd = payload.Password;
+
+            var id = this.userContext.getUserID();
+            var user = await this.query.GetUserById(id);
+            if (user==null){
+                return NotFound();
+            }
+
+            await this.query.resetUserPassword(user, pwd);
+
+            return Ok(user);
+        }
+
 
         // UPDATE api/account
         [HttpPut]

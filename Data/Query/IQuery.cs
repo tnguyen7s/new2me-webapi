@@ -102,5 +102,13 @@ namespace new2me_api.Data.Query
         /// <param name="user">The User entity</param>
         /// <returns></returns>
         Task UpdateUser(User user);
+
+        /// <summary>
+        /// Reset user's password
+        /// </summary>
+        /// <param name="User">The user entity</param>
+        /// <param name="pass">The user's password</param>
+        /// <returns></returns>
+        Task<User> resetUserPassword(User user, string pass);
     }
 }

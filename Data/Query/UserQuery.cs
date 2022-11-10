@@ -70,5 +70,21 @@ namespace new2me_api.Data.Query
         public async Task UpdateUser(User user){
             await this.new2meDb.SaveChangesAsync();
         }
+
+        public async Task<User> resetUserPassword(User user, string pass){
+            byte[] passwordHash, passwordKey;
+
+            using (var hmac = new HMACSHA512()){
+                passwordKey = hmac.Key;
+                passwordHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(pass));
+            }
+
+            user.Password = passwordHash;
+            user.PasswordKey = passwordKey;
+
+            await this.new2meDb.SaveChangesAsync();
+
+            return user;
+        }
     }
 }
