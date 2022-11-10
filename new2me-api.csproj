@@ -14,5 +14,6 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.10"/>
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.10"/>
     <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="6.0.2"/>
+    <PackageReference Include="NETCore.MailKit" Version="2.1.0"/>
   </ItemGroup>
 </Project>

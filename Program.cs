@@ -1,12 +1,10 @@
-using System.Net;
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using new2me_api.Clients;
 using new2me_api.Data;
 using new2me_api.Data.Query;
-using new2me_api.Extensions;
 using new2me_api.Helpers;
 using new2me_api.Middlewares;
 
@@ -18,6 +16,7 @@ builder.Services.AddControllers();
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddAutoMapper(typeof(AutoMapperProfiles).Assembly);
 builder.Services.AddScoped<IQuery, Query>();
+builder.Services.AddSingleton<IMailClient, MailClient>();
 builder.Services.AddCors();
 
 var secretKey = builder.Configuration.GetSection("AppSettings:Key").Value;
@@ -29,6 +28,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme) // ==
                     ValidateAudience = false,
                     IssuerSigningKey = key
                 });
+
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();

@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
+using new2me_api.Clients;
 using new2me_api.Data.Query;
 using new2me_api.Dtos;
 using new2me_api.Helpers;
@@ -22,8 +23,14 @@ namespace new2me_api.Controllers
         private readonly IQuery query;
         private readonly IConfiguration configuration;
         private readonly IHttpContextAccessor httpContextAccessor;
-        public AccountController(IQuery query, IConfiguration configuration, IHttpContextAccessor httpContextAccessor){
+        private readonly IMailClient mailClient;
+
+        public AccountController(IQuery query, 
+                                IConfiguration configuration, 
+                                IHttpContextAccessor httpContextAccessor, 
+                                IMailClient mailClient){
             this.httpContextAccessor = httpContextAccessor;
+            this.mailClient = mailClient;
             this.configuration = configuration;
             this.query = query;
         }
@@ -64,10 +71,11 @@ namespace new2me_api.Controllers
             }
 
             var token = this.createJWT(user);
-            SMTPService.sendResetPassword(email, token);
+            await this.mailClient.sendResetPassword(email, token);
 
             return Ok();
         }
+
 
         // UPDATE api/account
         [HttpPut]
