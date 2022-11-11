@@ -12,7 +12,7 @@ using new2me_api.Middlewares;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddDbContext<New2meDataContext>(options => options.UseMySql(builder.Configuration.GetConnectionString("Default"), ServerVersion.AutoDetect(builder.Configuration.GetConnectionString("Default"))));
+builder.Services.AddDbContext<New2meDbContext>(options => options.UseMySql(builder.Configuration.GetConnectionString("Default"), ServerVersion.AutoDetect(builder.Configuration.GetConnectionString("Default"))));
 builder.Services.AddControllers();
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddAutoMapper(typeof(AutoMapperProfiles).Assembly);

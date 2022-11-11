@@ -63,7 +63,7 @@ namespace new2me_api.Controllers
 
 
         // POST api/account/resetPassRequest
-        [HttpPost("resetPassRequest")]
+        [HttpGet("resetPassRequest")]
         public async Task<IActionResult> requestResetPassword([FromQuery] string email){
             var user = await this.query.GetUserByEmail(email);
             if (user==null){

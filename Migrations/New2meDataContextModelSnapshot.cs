@@ -9,7 +9,7 @@ using new2me_api.Data;
 
 namespace new2me_api.Migrations
 {
-    [DbContext(typeof(New2meDataContext))]
+    [DbContext(typeof(New2meDbContext))]
     partial class New2meDataContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)

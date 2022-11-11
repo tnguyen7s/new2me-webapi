@@ -3,9 +3,9 @@ using new2me_api.Models;
 
 namespace new2me_api.Data
 {
-    public class New2meDataContext:DbContext
+    public class New2meDbContext:DbContext
     {
-        public New2meDataContext(DbContextOptions<New2meDataContext> options): base(options){
+        public New2meDbContext(DbContextOptions<New2meDbContext> options): base(options){
         }
         
         public DbSet<Post> Posts { get; set; }

@@ -10,7 +10,7 @@ using new2me_api.Data;
 
 namespace new2me_api.Migrations
 {
-    [DbContext(typeof(New2meDataContext))]
+    [DbContext(typeof(New2meDbContext))]
     [Migration("20221022184102_InitialDb")]
     partial class InitialDb
     {

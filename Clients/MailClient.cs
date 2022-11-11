@@ -27,7 +27,7 @@ namespace new2me_api.Helpers
             emailMessage.To.Add(new MailboxAddress(String.Empty, to_));
             emailMessage.Subject = "New2Me - Reset Password Link";
             emailMessage.Body = new TextPart(MimeKit.Text.TextFormat.Html){
-                Text= String.Format("<p>Hi,</p><p>You have requested a password reset email.</p><p></p> <p>Please visit the following URL:</p> <a href=\"{0}\">Reset Password Link</a> <p>This link will expire in 24 hours.</p><p>{1}</p>", token, token)
+                Text= String.Format("<p>Hi,</p><p>You have requested a password reset email.</p><p></p> <p>Please visit the following URL:</p> <a href=\"http://localhost:4200/auth/reset-password?token={0}\">Reset Password Link</a> <p>This link will expire in 24 hours.</p>", token)
             };
 
             using (var client = new MailKit.Net.Smtp.SmtpClient()){
