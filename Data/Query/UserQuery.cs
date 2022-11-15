@@ -30,7 +30,6 @@ namespace new2me_api.Data.Query
                     return null;
                 }
             }
-
             return user; 
         }
 
