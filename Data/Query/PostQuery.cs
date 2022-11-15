@@ -16,7 +16,6 @@ namespace new2me_api.Data.Query
                 .Where(p => p.Status == Enums.PostStatusEnum.Active)
                 .ToListAsync()
                 .ConfigureAwait(false);
-
             return result;
         }
 
