@@ -2,7 +2,6 @@ using new2me_api.Enums;
 using new2me_api.Models;
 using Xunit;
 using Newtonsoft.Json;
-using System.Collections.Generic;
 
 namespace new2me_api.UnitTesting.QueryTests
 {
