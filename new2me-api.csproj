@@ -23,4 +23,7 @@
     <PackageReference Include="xunit.runner.visualstudio" Version="2.4.5"/>
     <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="6.0.10"/>
   </ItemGroup>
+    <ItemGroup>
+    <DotNetCliToolReference Include="Microsoft.EntityFrameworkCore.Tools.DotNet" Version="2.0.2" />
+  </ItemGroup>
 </Project>
