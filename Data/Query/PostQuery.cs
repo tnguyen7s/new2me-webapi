@@ -52,34 +52,32 @@ namespace new2me_api.Data.Query
         }
 
         public async Task<Post> CreatePost(Post post, ICollection<string> pictures, int userId){
-            // Create a post
-            post.UserId =userId;
-            post.LastUpdatedBy = userId;
-            post.LastUpdatedOn = DateTime.Now;
-            await this.new2meDb.Posts.AddAsync(post).ConfigureAwait(false);
+            using (var transaction = this.new2meDb.Database.BeginTransaction()){
+                // Create a post
+                post.UserId =userId;
+                post.LastUpdatedBy = userId;
+                post.LastUpdatedOn = DateTime.Now;
+                await this.new2meDb.Posts.AddAsync(post).ConfigureAwait(false);
+                await this.new2meDb.SaveChangesAsync();
 
-            // Create post pictures
-            var postPictures = new List<PostPicture>();
-            for (int i=0; i<pictures.Count; i++){
-                var picture = pictures.ElementAt(i);
-                var postPicture = new PostPicture{
-                    Picture = Encoding.UTF32.GetBytes(picture),
-                    PostId = 1 // give it a default
-                };
-                await this.new2meDb.PostPictures.AddAsync(postPicture).ConfigureAwait(false);
-                postPictures.Add(postPicture);
-            }
+                // Create post pictures
+                var postPictures = new List<PostPicture>();
+                for (int i=0; i<pictures.Count; i++){
+                    var picture = pictures.ElementAt(i);
+                    var postPicture = new PostPicture{
+                        Picture = Encoding.UTF32.GetBytes(picture),
+                        PostId = post.Id 
+                    };
+                    await this.new2meDb.PostPictures.AddAsync(postPicture).ConfigureAwait(false);
+                    postPictures.Add(postPicture);
+                }
 
-            // when all added, save changes
-            await this.new2meDb.SaveChangesAsync();
+                // when all added, save changes
+                await this.new2meDb.SaveChangesAsync();
 
-
-            // change the post id for the post Pictures 
-            foreach (var postPicture in postPictures){
-                postPicture.PostId = post.Id;
-            }
-            await this.new2meDb.SaveChangesAsync();
-
+                await transaction.CommitAsync(); 
+            } // transaction: commit all or roll back all
+        
             return post;
         }
 
