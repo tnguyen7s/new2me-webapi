@@ -73,7 +73,7 @@ namespace new2me_api.Data.Query
         public async Task<User> resetUserPassword(User user, string pass){
             byte[] passwordHash, passwordKey;
 
-            using (var hmac = new HMACSHA512()){
+            using (var hmac = new HMACSHA256()){
                 passwordKey = hmac.Key;
                 passwordHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(pass));
             }
