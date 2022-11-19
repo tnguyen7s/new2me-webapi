@@ -1,0 +1,5 @@
+- setup environment variables (key, connectionstrings, emailconfiguration)
+- (heroku) buildpack: https://github.com/jincod/dotnetcore-buildpack
+- install dotnet ef tools (dotnet-tools.json)
+- run dotnet ef database update (PrePublishTarget)
+- migrate to the target framework (dotnet sdk) corresponds to the one defined in the builpack

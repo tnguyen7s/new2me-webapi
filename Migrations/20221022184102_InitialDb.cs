@@ -106,9 +106,6 @@ namespace new2me_api.Migrations
                 table: "Posts",
                 column: "UserId");
 
-
-            migrationBuilder.InsertData("Users", new String[]{"Username", "Password", "PasswordKey", "Email"}, new Object[]{"default", Encoding.UTF8.GetBytes("default"), Encoding.UTF8.GetBytes("default"), "default"});
-            migrationBuilder.InsertData("Posts", new String[]{"Title", "Location", "Description", "ContactEmail", "ContactPhone", "Condition", "Tag", "Status", "LastUpdatedOn", "LastUpdatedBy", "UserId"}, new Object[]{"default", "default", "default", "default", "default", 0, 0, 0, DateTime.Now, 0 ,1});
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
