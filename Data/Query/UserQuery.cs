@@ -20,7 +20,7 @@ namespace new2me_api.Data.Query
 
             // compute the hash for the entered password using the password key in the db
             byte[] loginPassHash;
-            using (var hmac = new HMACSHA512(user.PasswordKey)){
+            using (var hmac = new HMACSHA256(user.PasswordKey)){
                 loginPassHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
             }
 
