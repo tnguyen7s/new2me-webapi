@@ -111,6 +111,9 @@ namespace new2me_api.Controllers
             user.PhoneNum = userDto.PhoneNum;
             user.NameOfUser = userDto.NameOfUser;
 
+            await this.query.UpdateUser(user);
+            
+            
             var loginRes = createLoginResponse(user);
             return Ok(loginRes);
         }
