@@ -113,7 +113,7 @@ namespace new2me_api.Controllers
 
             await this.query.UpdateUser(user);
             
-            return NoContent();
+            return Ok(user);
         }
 
 
