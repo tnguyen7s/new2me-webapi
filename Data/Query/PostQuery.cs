@@ -53,7 +53,7 @@ namespace new2me_api.Data.Query
 
         public async Task<IEnumerable<Post>> GetActivePostsBySearchKeywords(string searchString){
             var result = await this.new2meDb.Posts
-                                    .FromSql($"SELECT * FROM Posts WHERE MATCH(Title, Location, Description) AGAINST ({searchString})")
+                                    .FromSql($"SELECT * FROM Posts WHERE MATCH(Title, Location, Description) AGAINST ({searchString}) AND Status={PostStatusEnum.Active}")
                                     .Include(post=>post.PostPictures)
                                     .ToListAsync();
             return result;
