@@ -51,6 +51,12 @@ namespace new2me_api.Data.Query
             return result;
         }
 
+        public async Task<IEnumerable<Post>> GetActivePostsBySearchKeywords(string searchString){
+            return await this.new2meDb.Posts
+                                    .FromSql($"SELECT * FROM Posts WHERE MATCH (Title, Location, Description) AGAINST ('{searchString}')")
+                                    .ToListAsync();
+        }
+
         public async Task<Post> CreatePost(Post post, ICollection<string> pictures, int userId){
             using (var transaction = this.new2meDb.Database.BeginTransaction()){
                 // Create a post

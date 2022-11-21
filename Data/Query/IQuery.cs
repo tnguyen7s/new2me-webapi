@@ -21,10 +21,16 @@ namespace new2me_api.Data.Query
         /// <summary>
         /// Get posts belonging to a particular tag
         /// </summary>
-        /// <param name="tag"></param>
-        /// <returns></returns>
+        /// <param name="tag">A post tag</param>
+        /// <returns>A list of active posts matching the tag</returns>
         Task<IEnumerable<Post>> GetActivePostsByTag(int tag);
 
+        /// <summary>
+        /// Get posts by matching the search against posts' title, location, description
+        /// </summary>
+        /// <param name="search">A string contains search keywords</param>
+        /// <returns>A list of active posts matching the search</returns>
+        Task<IEnumerable<Post>> GetActivePostsBySearchKeywords(string search);
 
         /// <summary>
         /// Get all posts created by the user

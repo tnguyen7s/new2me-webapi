@@ -73,6 +73,31 @@ namespace new2me_api.Controllers
             return Ok(postDtos);
         }
 
+        // GET api/post/filter?tag=0
+        [HttpGet("filter")]
+        [AllowAnonymous]
+        public async Task<ActionResult<IEnumerable<PostDtoWithoutContact>>> GetPostsByTag([FromQuery]int tag)
+        {
+            if (!(tag>=0 && tag<=6)){
+                return BadRequest("Invalid tag");
+            }
+
+            var posts = await this.query.GetActivePostsByTag(tag);
+            var postDtos = CreatePostDtoWithoutContactsFromPosts(posts);
+
+            return Ok(postDtos);
+        }
+
+        // GET api/post/search?keywords="chair"
+        [HttpGet("search")]
+        [AllowAnonymous]
+        public async Task<ActionResult<IEnumerable<PostDtoWithoutContact>>> GetPostBySearch([FromQuery(Name = "keywords")] string keywords){
+            var posts = await this.query.GetActivePostsBySearchKeywords(keywords);
+            var postDtos = CreatePostDtoWithoutContactsFromPosts(posts);
+
+            return Ok(postDtos);
+        }
+
         // GET api/post/:id
         [HttpGet("{id}")]
         [AllowAnonymous]
@@ -90,21 +115,6 @@ namespace new2me_api.Controllers
             }
             
             return Ok(postDto);
-        }
-
-        // GET api/post/filter?tag=0
-        [HttpGet("filter")]
-        [AllowAnonymous]
-        public async Task<ActionResult<IEnumerable<PostDtoWithoutContact>>> GetPostsByTag([FromQuery]int tag)
-        {
-            if (!(tag>=0 && tag<=6)){
-                return BadRequest("Invalid tag");
-            }
-
-            var posts = await this.query.GetActivePostsByTag(tag);
-            var postDtos = CreatePostDtoWithoutContactsFromPosts(posts);
-
-            return Ok(postDtos);
         }
 
 

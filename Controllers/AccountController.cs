@@ -113,7 +113,6 @@ namespace new2me_api.Controllers
 
             await this.query.UpdateUser(user);
             
-            
             var loginRes = createLoginResponse(user);
             return Ok(loginRes);
         }
