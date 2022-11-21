@@ -21,4 +21,7 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="7.0.0"/>
     <PackageReference Include="Devart.Data.MySql.Linq" Version="5.0.0"/>
   </ItemGroup>
+  <Target Name="PrePublishTarget" AfterTargets="Publish">
+    <Exec Command="dotnet ef database update"/>
+  </Target>
 </Project>

@@ -73,6 +73,20 @@ namespace new2me_api.Controllers
             return Ok(postDtos);
         }
 
+        // GET api/post/search?keywords=desk
+        [HttpGet("search")]
+        [AllowAnonymous]
+        public async Task<ActionResult<IEnumerable<PostDtoWithoutContact>>> GetPostBySearch([FromQuery]string keywords){
+            if (keywords==null){
+                return BadRequest();
+            }
+
+            var posts = await this.query.GetActivePostsBySearchKeywords(keywords);
+            var postDtos = CreatePostDtoWithoutContactsFromPosts(posts);
+
+            return Ok(postDtos);
+        }
+
         // GET api/post/filter?tag=0
         [HttpGet("filter")]
         [AllowAnonymous]
@@ -83,16 +97,6 @@ namespace new2me_api.Controllers
             }
 
             var posts = await this.query.GetActivePostsByTag(tag);
-            var postDtos = CreatePostDtoWithoutContactsFromPosts(posts);
-
-            return Ok(postDtos);
-        }
-
-        // GET api/post/search?keywords="chair"
-        [HttpGet("search")]
-        [AllowAnonymous]
-        public async Task<ActionResult<IEnumerable<PostDtoWithoutContact>>> GetPostBySearch([FromQuery(Name = "keywords")] string keywords){
-            var posts = await this.query.GetActivePostsBySearchKeywords(keywords);
             var postDtos = CreatePostDtoWithoutContactsFromPosts(posts);
 
             return Ok(postDtos);
