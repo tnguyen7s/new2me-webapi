@@ -80,16 +80,25 @@ namespace new2me_api.Controllers
         [HttpPost("resetPassword")]
         [Authorize]
         public async Task<IActionResult> resetPassword(ResetPasswordDto payload){
+            // the new password
             var pwd = payload.Password;
 
+            // get user based on their id
             var id = this.userContext.getUserID();
             var user = await this.query.GetUserById(id);
             if (user==null){
                 return NotFound();
             }
 
-            await this.query.resetUserPassword(user, pwd);
+            // check to make sure the new password is not the old one
+            var hasUser = await this.query.Authenticate(user.Username, pwd);
+            if (hasUser != null){
+                return BadRequest("You are resetting with your current password. Please use another password to reset.");
+            }
 
+            // all succeed
+            await this.query.resetUserPassword(user, pwd);
+            
             return Ok(user);
         }
 
