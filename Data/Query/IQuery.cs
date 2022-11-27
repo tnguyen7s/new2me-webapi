@@ -66,10 +66,10 @@ namespace new2me_api.Data.Query
         /// <summary>
         /// Authenticate a user using provided username and password
         /// </summary>
-        /// <param name="username"></param>
+        /// <param name="usernameOrEmail"></param>
         /// <param name="password"></param>
-        /// <returns>Authenticated user in the database</returns>
-        Task<User> Authenticate(string username, string password);
+        /// <returns>Authenticated user in the database using either the username or the email</returns>
+        Task<User> Authenticate(string usernameOrEmail, string password);
 
 
         /// <summary>
@@ -101,6 +101,13 @@ namespace new2me_api.Data.Query
         /// <param name="email"></param>
         /// <returns>User</returns>
         Task<User> GetUserByEmail(string email);
+
+        /// <summary>
+        /// Get User by their Username or null
+        /// </summary>
+        /// <param name="username"></param>
+        /// <returns>User</returns>
+        Task<User> GetUserByUsername(string username);
 
         /// <summary>
         /// Get User by their ID

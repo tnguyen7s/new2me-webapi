@@ -55,7 +55,7 @@ namespace new2me_api.Controllers
         // POST api/account/login
         [HttpPost("login")]
         public async Task<ActionResult<LoginResDto>> login(LoginReqDto loginReq){
-            var user = await this.query.Authenticate(loginReq.Username, loginReq.Password);
+            var user = await this.query.Authenticate(loginReq.UsernameOrEmail, loginReq.Password);
 
             if (user==null){
                 return Unauthorized();

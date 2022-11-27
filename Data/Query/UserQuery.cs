@@ -11,9 +11,13 @@ namespace new2me_api.Data.Query
 {
     public partial class Query:IQuery
     {
-        public async Task<User> Authenticate(string username, string password){
-            // get the user of the username
-            var user = await this.new2meDb.Users.FirstOrDefaultAsync(u=> u.Username==username);
+        public async Task<User> Authenticate(string usernameOrEmail, string password){
+            // get the user of the username or email
+            var user =  await this.GetUserByUsername(usernameOrEmail);
+            if (user==null){
+                user =  await this.GetUserByEmail(usernameOrEmail);
+            }
+
             if (user==null || user.PasswordKey==null){
                 return null;
             }
@@ -68,6 +72,10 @@ namespace new2me_api.Data.Query
 
         public async Task<User> GetUserById(int id){
             return await this.new2meDb.Users.FindAsync(id);
+        }
+
+        public async Task<User> GetUserByUsername(string username){
+            return await this.new2meDb.Users.Where(user=>user.Username==username).FirstOrDefaultAsync();
         }
 
         public async Task UpdateUser(User user){

@@ -4,7 +4,7 @@ namespace new2me_api.Dtos{
     
     public class LoginReqDto{
         [Required]
-        public string? Username { get; set; }
+        public string? UsernameOrEmail { get; set; }
 
         [Required]
         public string? Password { get; set; }
