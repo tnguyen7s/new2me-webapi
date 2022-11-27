@@ -115,19 +115,19 @@ namespace new2me_api.Controllers
             var user = await this.query.GetUserById(userId);
 
             if (user==null){
-                return BadRequest("No such user found.");
+                return BadRequest("Update fails. No such user found.");
             }
 
             // check if there is another user that has the username=the one that the user wants to change
             var userOfUsername = await this.query.GetUserByUsername(userDto.Username);
             if (userOfUsername!=null && userOfUsername.Id!=userId){
-                return BadRequest("Username already exists.");
+                return BadRequest("Update fails. Username already exists.");
             }
 
             // check if there is another user that has the email=the one that the user wants to change
             var userOfEmail = await this.query.GetUserByEmail(userDto.Email);
             if (userOfEmail!=null && userOfEmail.Id!=userId){
-                return BadRequest("Email already exists");
+                return BadRequest("Update fails. Email already exists");
             }
 
             user.Email = userDto.Email;
