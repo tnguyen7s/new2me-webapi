@@ -89,6 +89,13 @@ namespace new2me_api.Data.Query
         Task<bool> UsernameExists(string username);
 
         /// <summary>
+        /// Check if the email already exists
+        /// </summary>
+        /// <param name="email"></param>
+        /// <returns>True if the email already exists.</returns>
+        Task<bool> EmailExists(string email);
+
+        /// <summary>
         /// Get User by their Email
         /// </summary>
         /// <param name="email"></param>

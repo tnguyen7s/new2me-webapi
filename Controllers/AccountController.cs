@@ -42,6 +42,10 @@ namespace new2me_api.Controllers
                 return BadRequest("Username already exists, please try something else.");
             }
 
+            if (await this.query.EmailExists(signupReq.Email)){
+                return BadRequest("Email already exists, please try something else.");
+            }
+
             var user = await this.query.SignUp(signupReq.Username, signupReq.Password, signupReq.Email);
            
             var loginRes = createLoginResponse(user);
